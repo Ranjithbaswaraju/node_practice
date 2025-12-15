@@ -1,57 +1,28 @@
-// const express=require('express')
-// const app=express()
-// const port=3000
-// const {MongoClient}=require('mongodb')
-// const client=new MongoClient("mongodb://localhost:27017/")
-
-// const createDB=async(req,res)=>{
-//     try{
-//         await client.connect()
-//         let db=client.db("practice_mongo")
-//         let collection=db.collection("user_data")
-       
-//         await collection.insertOne({name:"raniith",age:25})
-//     }
-//     catch(err){
-//         console.log(err)
-//     }
-// }
-
-// createDB()
-// app.listen(port,()=>{
-//     console.log(`Server running at ${port}`)
-// })
-
-const express=require('express')
+const express=require("express")
 const app=express()
 const port=3000
-const {MongoClient}=require("mongodb")
-const client=new MongoClient("mongodb://localhost:27017/")
-let db;
-let collection;
+const mongoose=require("mongoose")
 app.use(express.json())
 
+mongoose.connect("mongodb://localhost:27017/",{dbName:"ranjith_practice"})
+.then(()=>console.log("succesfully connected")).catch((err)=>console.log(err))
 
-const connectDB=async(req,res)=>{
- try{
-    await client.connect()
-    db=client.db("ranjith_practice");
-    collection=db.collection("user_data")
- }
- catch(err){
-    console.log(err)
- }
-}
+const mongooseSchema=new mongoose.Schema({
+    name:{type:String,required:true,unique:true},
+    age:{type:Number,required:true},
+    phone:{type:Number,required:true}
+})
+
+const userModel=mongoose.model("users",mongooseSchema)
 
 app.post("/postData",async(req,res)=>{
-    try{
-        await collection.insertOne(req.body)
-        res.send("data added")
-    }catch(err){
-        res.json('not add')
-    }
+    const data=new userModel(req.body)
+    const finalData=await data.save()
+    res.json({
+        message:"data added",
+        data:finalData
+    })
 })
-connectDB( )
 
 app.listen(port,()=>{
     console.log(`server running at ${port}`)
