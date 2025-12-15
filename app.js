@@ -1,16 +1,13 @@
-const express=require("express")
-const app=express()
+const express=require("express");
 const port=3000
-const cors=require('cors')
+const app=express()
+const bcrypt=require("bcryptjs")
 
+const token='ranjith@123'
+// console.log(bcrypt.hashSync(token,15))
 
-app.use(cors({
-    origin:"http://localhost:5173"
-}))
-
-app.get("/get",(req,res)=>{
-    res.send("Hello")
-})
+const token1='$2b$15$5V3GR8kO7EO3hGb/1KqHae3j7lAQIMMQtOODBWC9dLL20Tb2j.h/S'
+console.log(bcrypt.compareSync(token,token1))
 
 
 
