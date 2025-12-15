@@ -1,16 +1,34 @@
-const express=require("express");
-const port=3000
+const express=require("express")
 const app=express()
-const bcrypt=require("bcryptjs")
+const port=3000
+const nodemailer=require("nodemailer")
+const dotenv=require("dotenv");
+dotenv.config()
 
-const token='ranjith@123'
-// console.log(bcrypt.hashSync(token,15))
+const mail=nodemailer.createTransport({
+    service:"gmail",
+    auth:{
+        user:process.env.nodemailer_mail,
+        pass:process.env.nodemailer_pass
+       
+    }
+})
 
-const token1='$2b$15$5V3GR8kO7EO3hGb/1KqHae3j7lAQIMMQtOODBWC9dLL20Tb2j.h/S'
-console.log(bcrypt.compareSync(token,token1))
+const mailPoints={
+    from:process.env.nodemailer_mail,
+    to:"ranjithbaswaraju27@gmail.com",
+    subject:"Invitation for interview",
+    text:"Hello"
+}
 
-
-
+mail.sendMail(mailPoints,(err,info)=>{
+    if(err){
+        console.log(err)
+    }
+    else{
+        console.log("mail sent succesfully")
+    }
+})
 
 app.listen(port,()=>{
     console.log(`server running at ${port}`)
