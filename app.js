@@ -1,80 +1,36 @@
-const colors=require("colors")
+// const express=require("express")
+// const app=express()
+// const port=3000
 
-console.log('hi'.yellow)
-console.log("bye".bgYellow)
-console.log("NARENDRA".bgBlue)
-
-
-
-//
-
-// const fs=require('fs');
-// const data=fs.writeFileSync("a.txt","hello",(err,data)=>{
-//     if(err){
-//         console.log(err)
-//     }
-//     else{
-//         console.log("data added")
-//     }
+// app.use((req,res,next)=>{
+    
+//     console.log(req.method,req.url)
+//     next()
 // })
 
 
-// write file synchronously
 
-// const fs=require('fs');
-// const data=fs.writeFileSync("a.txt","bye")
-// console.log(data)
-
-
-
-//readFile sync
-
-// const fs=require('fs')
-// fs.readFile("a.txt",'utf-8',(err,info)=>{
-//     if(err){
-//         console.log(err)
-//     }
-//     else{
-//         console.log(info)
-//     }
+// app.listen(port,()=>{
+//     console.log(`server running at ${port}`)
 // })
 
-// reading file synchronos way
 
-// const fs=require('fs')
-// const data=fs.readFileSync("a.txt",'utf-8')
-// console.log(data)
-
-// appending data
-
-// const fs=require('fs')
-// fs.appendFile("a.txt","ranjith",(err,info)=>{
-//     if(err){
-//         console.log(err)
-//     }
-//     else{
-//         console.log(info)
-//     }
-// })
-
-// const fs=require('fs')
-// const data=fs.existsSync("a.txt")
-// console.log(data)
-
-
-// const fs=require('fs')
-// const data=fs.unlinkSync("a.txt")
-// console.log(data)
-
-
-const fs=require('fs')
-fs.rmdir("day4",(err,info)=>{
-    if(err){
-        console.log(err)
+const express=require("express")
+const app=express()
+const port=3000
+const fs=require("fs")
+const { json } = require("stream/consumers")
+app.use((req,res,next)=>{
+    console.log(req.url,req.method)
+    const data={
+        method:req.method,
+        url:req.url
     }
-    else{
-       fs.writeFile("day8/a.txt",'hello',()=>{
-        console.log("writeen succesfully")
-       })
-    }
+    fs.appendFileSync("a.txt",JSON.stringify(data))
+    next()
+})
+
+
+app.listen(port,()=>{
+    console.log(`server running at ${port}`)
 })
