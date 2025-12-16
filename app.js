@@ -62,6 +62,19 @@ console.log("NARENDRA".bgBlue)
 // console.log(data)
 
 
+// const fs=require('fs')
+// const data=fs.unlinkSync("a.txt")
+// console.log(data)
+
+
 const fs=require('fs')
-const data=fs.unlinkSync("a.txt")
-console.log(data)
+fs.rmdir("day4",(err,info)=>{
+    if(err){
+        console.log(err)
+    }
+    else{
+       fs.writeFile("day8/a.txt",'hello',()=>{
+        console.log("writeen succesfully")
+       })
+    }
+})
